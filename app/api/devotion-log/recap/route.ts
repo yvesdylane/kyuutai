@@ -1,13 +1,16 @@
 import { NextRequest } from "next/server"
+import { getAuthUserId } from "@/lib/auth"
 import { generateRecap, listRecaps } from "./recap.service"
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url)
-  const userId = searchParams.get("userId")
-
-  if (!userId) {
-    return Response.json({ error: "userId is required" }, { status: 400 })
+  let userId: string
+  try {
+    userId = await getAuthUserId()
+  } catch {
+    return Response.json({ error: "Unauthorized" }, { status: 401 })
   }
+
+  const { searchParams } = new URL(request.url)
 
   try {
     const recaps = await listRecaps(userId)
@@ -22,11 +25,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { userId } = body
-
-    if (!userId) {
-      return Response.json({ error: "userId is required" }, { status: 400 })
+    let userId: string
+    try {
+      userId = await getAuthUserId()
+    } catch {
+      return Response.json({ error: "Unauthorized" }, { status: 401 })
     }
 
     const recap = await generateRecap(userId)
