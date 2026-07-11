@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--dns-result-order=ipv4first' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.5.17",
+    "@google/generative-ai": "^0.24.1",
+    "elevenlabs": "^1.59.0",
+    "html-to-image": "^1.11.13",
     "next": "16.2.10",
     "pg": "^8.22.0",
     "react": "19.2.4",
