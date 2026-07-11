@@ -74,7 +74,7 @@ export default function PassionCardPage() {
     let cancelled = false
     async function load() {
       try {
-        const res = await fetch("/api/passion-card?userId=user1")
+        const res = await fetch("/api/passion-card")
         const data = await res.json()
         if (!cancelled && res.ok && data.data) {
           setCard(data.data)
@@ -96,7 +96,7 @@ export default function PassionCardPage() {
       const res = await fetch("/api/passion-card", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: "user1", games, anime, artists }),
+        body: JSON.stringify({ games, anime, artists }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || "Failed to generate")

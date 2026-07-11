@@ -17,7 +17,7 @@ export default function RecapPage() {
     let cancelled = false
     async function load() {
       try {
-        const res = await fetch("/api/devotion-log/recap?userId=user1")
+        const res = await fetch("/api/devotion-log/recap")
         const data = await res.json()
         if (!cancelled && res.ok) {
           setRecaps(data.data)
@@ -40,7 +40,7 @@ export default function RecapPage() {
       const res = await fetch("/api/devotion-log/recap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: "user1" }),
+        body: JSON.stringify({}),
       })
 
       const data = await res.json()

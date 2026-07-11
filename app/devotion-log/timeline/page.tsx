@@ -80,7 +80,7 @@ export default function TimelinePage() {
     let cancelled = false
     async function load() {
       try {
-        const res = await fetch("/api/devotion-log/journal?userId=user1")
+        const res = await fetch("/api/devotion-log/journal")
         const data = await res.json()
         if (!cancelled && res.ok) {
           setGroups(groupByDate(data.data))

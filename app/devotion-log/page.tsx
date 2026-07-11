@@ -43,7 +43,7 @@ export default function DevotionLogPage() {
     let cancelled = false
     async function load() {
       try {
-        const res = await fetch("/api/devotion-log/journal?userId=user1")
+        const res = await fetch("/api/devotion-log/journal")
         const data = await res.json()
         if (!cancelled && res.ok) {
           setEntries(data.data)
@@ -129,7 +129,6 @@ export default function DevotionLogPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: "user1",
           mediaType,
           title: title.trim(),
           note: note.trim() || null,
