@@ -23,7 +23,7 @@ Why this order: Devotion Log alone already stacks both prize tracks (Google AI +
 | Backend | **NestJS** (TypeScript) | Modular structure (modules/controllers/services/providers) maps 1:1 onto your 4 feature modules — keeps a hackathon codebase from turning into spaghetti |
 | ORM | **Prisma** (recommended) or TypeORM | Prisma + Nest is the fastest path to migrations + typed queries for a weekend; TypeORM is the more "native" Nest choice if your team already knows it |
 | DB | **PostgreSQL** | Hosted free tier via Supabase, Railway, or Neon — pick whichever gives you a connection string fastest |
-| Auth | Nest `@nestjs/passport` + JWT, or a stubbed single-user session for demo | Don't over-engineer auth for a weekend judge demo |
+| Auth | **Clerk** | Handles sign-up/sign-in/session UI out of the box — no custom JWT/password flow to build this weekend |
 | Storage (audio files) | Supabase Storage / S3 bucket / local `/uploads` served via a Nest static module | Recap audio + karaoke recordings need somewhere to live |
 | Speech-to-text (voice journal input) | **Web Speech API** (browser-native) | ElevenLabs is TTS-only — do not burn time looking for ElevenLabs STT |
 | Text-to-speech (narrator, recap, sensei) | **ElevenLabs TTS** (+ Voice Design/cloning for "sensei" persona) | |
@@ -103,12 +103,11 @@ fandom-devotion/
 │       │   │   ├── voice.module.ts
 │       │   │   └── voice.service.ts              # TTS + voice cloning, injected everywhere
 │       │   │
-│       │   ├── auth/                             # @nestjs/passport + JWT (or stub)
+│       │   ├── auth/                             # Clerk integration
 │       │   │   ├── auth.module.ts
-│       │   │   ├── auth.controller.ts
-│       │   │   ├── auth.service.ts
-│       │   │   ├── jwt.strategy.ts
-│       │   │   └── guards/jwt-auth.guard.ts
+│       │   │   ├── clerk-webhook.controller.ts   # POST /webhooks/clerk — user.created/updated/deleted
+│       │   │   ├── clerk-webhook.service.ts      # syncs Clerk user -> local User row (upsert by clerkId)
+│       │   │   └── guards/clerk-auth.guard.ts    # verifies Clerk session token on incoming requests
 │       │   │
 │       │   ├── users/
 │       │   │   ├── users.module.ts
@@ -193,9 +192,12 @@ enum MediaType {
 
 model User {
   id            String          @id @default(cuid())
+  clerkId       String          @unique      // Clerk's user.id — source of truth for identity
   name          String
   email         String          @unique
+  imageUrl      String?
   createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
   journalEntries JournalEntry[]
   weeklyRecaps   WeeklyRecap[]
@@ -268,6 +270,12 @@ model KaraokeAttempt {               // Module C
 }
 ```
 
+**How Clerk fits in:** Clerk owns identity (sign-up, sign-in, session tokens) — it is never your source of truth for app data. Your `User` table stays a thin mirror keyed on `clerkId`:
+- Frontend uses Clerk's React SDK (`@clerk/clerk-react` or `@clerk/nextjs` if you go Next) for sign-in UI and to attach a session token to every API request.
+- Backend `ClerkAuthGuard` verifies that token on protected routes (using Clerk's Node SDK / `@clerk/backend`) and exposes `req.auth.userId` (the Clerk ID).
+- A `clerk-webhook.controller.ts` endpoint listens for Clerk's `user.created` / `user.updated` / `user.deleted` webhooks and upserts/deletes the matching row in your local `User` table — so `JournalEntry`, `WeeklyRecap`, etc. can just foreign-key against your local `User.id` as normal.
+- Never store passwords or session logic yourself — that's the whole point of using Clerk.
+
 ---
 
 ## 4. API Integration Map
@@ -293,7 +301,7 @@ Since both are Nest `@Injectable()` providers exported from their own modules, a
 
 | Block | Task |
 |---|---|
-| Sat AM | `nest new apps/api`, `prisma init`, point `DATABASE_URL` at a hosted Postgres, `prisma migrate dev`, scaffold `devotion-log` module (`nest g module/controller/service devotion-log`), auth stub, journal CRUD (text-only, no AI yet) |
+| Sat AM | `nest new apps/api`, `prisma init`, point `DATABASE_URL` at a hosted Postgres, `prisma migrate dev`, wire up Clerk (frontend SDK + backend webhook + guard), scaffold `devotion-log` module (`nest g module/controller/service devotion-log`), journal CRUD (text-only, no AI yet) |
 | Sat PM | Web Speech API voice input → journal entry; Passion Timeline UI (scrapbook feed) |
 | Sat Night | Gemini wrapper + recap script generation; ElevenLabs wrapper + TTS playback |
 | Sun AM | Polish Devotion Log end-to-end (this is your demoable MVP — protect this) |
@@ -307,7 +315,7 @@ Karaoke Judge is marked stretch/cut-first — it needs audio scoring (pitch/lyri
 
 ## 6. What NOT to build this weekend
 - Don't build a real music licensing/streaming pipeline — hardcode a JSON seed of 10–15 clips with public/fair-use snippets or short embedded clips cut to timestamp.
-- Don't build full auth/social features — a single-user local demo account is enough for judges.
+- Don't build custom auth — Clerk handles sign-up/sign-in/sessions; your only job is the webhook sync and the guard, not password flows or JWT rotation.
 - Don't try to find "ElevenLabs speech-to-text" — it doesn't exist as a product; Web Speech API replaces it.
 - Don't build all 4 modules "equally" — Devotion Log finished and polished beats four modules half-built.
 - Don't hand-roll SQL — let `prisma migrate dev` generate migrations from `schema.prisma`; hand-editing SQL against Postgres is time you don't have.
