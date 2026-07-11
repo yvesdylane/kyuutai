@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^7.5.17",
     "@google/generative-ai": "^0.24.1",
     "elevenlabs": "^1.59.0",
+    "framer-motion": "^12.42.2",
     "html-to-image": "^1.11.13",
     "next": "16.2.10",
     "pg": "^8.22.0",
