@@ -1,15 +1,17 @@
 import { NextRequest } from "next/server"
+import { getAuthUserId } from "@/lib/auth"
 import * as journalService from "./journal.service"
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
-    const userId = searchParams.get("userId")
-
-    if (!userId) {
-      return Response.json({ error: "userId is required" }, { status: 400 })
+    let userId: string
+    try {
+      userId = await getAuthUserId()
+    } catch {
+      return Response.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { searchParams } = new URL(request.url)
     const startDate = searchParams.get("startDate") ?? undefined
     const endDate = searchParams.get("endDate") ?? undefined
 
@@ -26,8 +28,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    let userId: string
+    try {
+      userId = await getAuthUserId()
+    } catch {
+      return Response.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const body = await request.json()
-    const data = await journalService.createJournalEntry(body)
+    const data = await journalService.createJournalEntry({ ...body, userId })
     return Response.json({ data }, { status: 201 })
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error"
