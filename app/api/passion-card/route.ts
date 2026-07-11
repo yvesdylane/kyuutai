@@ -1,10 +1,13 @@
 import { NextRequest } from "next/server"
+import { getAuthUserId } from "@/lib/auth"
 import { generatePassionCard, getLatestPassionCard } from "./passion-card.service"
 
 export async function GET(request: NextRequest) {
-  const userId = request.nextUrl.searchParams.get("userId")
-  if (!userId) {
-    return Response.json({ error: "userId is required" }, { status: 400 })
+  let userId: string
+  try {
+    userId = await getAuthUserId()
+  } catch {
+    return Response.json({ error: "Unauthorized" }, { status: 401 })
   }
 
   const card = await getLatestPassionCard(userId)
@@ -14,11 +17,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { userId, games, anime, artists } = body
-
-    if (!userId) {
-      return Response.json({ error: "userId is required" }, { status: 400 })
+    let userId: string
+    try {
+      userId = await getAuthUserId()
+    } catch {
+      return Response.json({ error: "Unauthorized" }, { status: 401 })
     }
+    const { games, anime, artists } = body
 
     const card = await generatePassionCard({ userId, games, anime, artists })
     return Response.json({ data: card }, { status: 201 })
