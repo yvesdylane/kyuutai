@@ -1,0 +1,267 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Devotion Log - Journal Entry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=Quicksand:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#e5e1e2",
+                        "outline": "#938f96",
+                        "on-primary": "#312f3c",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "surface-dim": "#141314",
+                        "primary-container": "#12101c",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#7a3008",
+                        "on-surface": "#e5e1e2",
+                        "background": "#141314",
+                        "secondary": "#cbbeff",
+                        "on-secondary-fixed": "#1e0061",
+                        "tertiary-container": "#260800",
+                        "secondary-fixed": "#e7deff",
+                        "on-tertiary-container": "#bf643a",
+                        "surface-container-high": "#2b2a2b",
+                        "surface": "#141314",
+                        "surface-container-lowest": "#0e0e0f",
+                        "primary-fixed": "#e6e0f2",
+                        "primary-fixed-dim": "#c9c4d5",
+                        "error": "#ffb4ab",
+                        "on-surface-variant": "#c9c5cc",
+                        "tertiary-fixed": "#ffdbcd",
+                        "secondary-fixed-dim": "#cbbeff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-tertiary": "#581d00",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "on-secondary": "#330b91",
+                        "outline-variant": "#48464c",
+                        "surface-container-low": "#1c1b1c",
+                        "on-primary-fixed-variant": "#484553",
+                        "surface-container-highest": "#363435",
+                        "secondary-container": "#4a2ea7",
+                        "tertiary": "#ffb597",
+                        "inverse-surface": "#e5e1e2",
+                        "inverse-on-surface": "#313031",
+                        "on-primary-fixed": "#1c1a26",
+                        "surface-tint": "#c9c4d5",
+                        "on-primary-container": "#7f7b8b",
+                        "inverse-primary": "#605c6b",
+                        "surface-bright": "#3a393a",
+                        "on-secondary-fixed-variant": "#4a2ea7",
+                        "surface-container": "#201f20",
+                        "on-secondary-container": "#baa9ff",
+                        "primary": "#c9c4d5",
+                        "surface-variant": "#363435"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "xl": "64px",
+                        "sm": "16px",
+                        "base": "4px",
+                        "margin-mobile": "20px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Quicksand"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "label-sm": ["Quicksand"],
+                        "body-md": ["Quicksand"],
+                        "display-lg": ["Bricolage Grotesque"],
+                        "display-lg-mobile": ["Bricolage Grotesque"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "38px", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .paper-grain {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        .dotted-line {
+            background-image: linear-gradient(to right, transparent 50%, rgba(255, 255, 255, 0.1) 50%);
+            background-size: 8px 1px;
+            background-repeat: repeat-x;
+            background-position: bottom;
+        }
+        .washi-tape-accent {
+            position: absolute;
+            width: 40px;
+            height: 12px;
+            background-color: rgba(203, 190, 255, 0.4);
+            transform: rotate(-5deg);
+            top: -5px;
+            left: 10px;
+            z-index: 10;
+        }
+        
+        .mic-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(201, 196, 213, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 20px rgba(201, 196, 213, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(201, 196, 213, 0);
+            }
+        }
+
+        /* Hide scrollbar for clean look but allow scrolling */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background paper-grain min-h-screen relative font-body-md">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full px-margin-mobile h-16 bg-surface/90 backdrop-blur-sm fixed top-0 z-40 flat no shadows">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A small, aesthetic profile picture showing a minimalist illustration of a star or moon in soft pastel colors, suitable for a digital scrapbook vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABV-DzGnlw6yE81wxgZsurC7euqAOsB-tOxQHfICcYQGNze48f8lNGtGo1Jb3Pn622ZMLHtxfOCYNRLXt-wZTFLJw71krY-a_HDL9XAOvw7dAoE55_qUst8gbok8A5fHo-UXjpaQckofNzvkJpbv0ABT3oEs5EVc8lqlWbHcHBWmYb6t3C91JrUgvoWi3p7AHNibTUmfzIZth6eoRlVDKfXzweFjHbeqR8-6spztgvkIBp5Ei4iZfpJUI5KqOg0oO9_OqsGATklZ3t">
+</div>
+<h1 class="font-headline-md text-headline-md-mobile text-on-surface">Good evening, Fan</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 px-margin-mobile flex flex-col gap-6 max-w-2xl mx-auto">
+<!-- Greeting -->
+<div class="relative -rotate-1 mb-4">
+<div class="washi-tape-accent bg-secondary/30"></div>
+<h2 class="font-display-lg-mobile text-display-lg-mobile text-primary italic drop-shadow-md">Dear Journal...</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">What caught your heart today?</p>
+</div>
+<!-- Media Type Selector (Chips) -->
+<div class="flex gap-3 overflow-x-auto py-2 -mx-2 px-2">
+<button class="shrink-0 px-4 py-2 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm flex items-center gap-2 border border-secondary/20 shadow-sm transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">movie</span>
+                Anime
+            </button>
+<button class="shrink-0 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center gap-2 border border-outline-variant/30 hover:bg-tertiary-container/50 hover:text-tertiary transition-all active:scale-95">
+<span class="material-symbols-outlined text-[16px]">sports_esports</span>
+                Game
+            </button>
+<button class="shrink-0 px-4 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center gap-2 border border-outline-variant/30 hover:bg-primary-container hover:text-primary transition-all active:scale-95">
+<span class="material-symbols-outlined text-[16px]">music_note</span>
+                Song
+            </button>
+</div>
+<!-- Inputs Card -->
+<div class="bg-surface-container-low rounded-xl p-6 shadow-[0_4px_24px_rgba(0,0,0,0.2)] border-t-2 border-dashed border-outline-variant/20 relative mt-4 transform rotate-[0.5deg]">
+<div class="absolute right-4 top-4 opacity-10">
+<span class="material-symbols-outlined text-4xl">stylus_note</span>
+</div>
+<div class="flex flex-col gap-6">
+<!-- Title Input -->
+<div class="relative">
+<input class="w-full bg-transparent border-0 border-b-2 border-outline-variant/50 focus:border-primary focus:ring-0 px-0 py-2 font-headline-md text-headline-md-mobile text-on-surface placeholder:text-outline-variant transition-colors" placeholder="Title of the obsession..." type="text">
+</div>
+<!-- Note Textarea -->
+<div class="relative h-40">
+<textarea class="w-full h-full bg-transparent border-0 focus:ring-0 px-0 py-2 font-body-lg text-body-lg text-on-surface-variant placeholder:text-outline/50 resize-none dotted-line leading-loose" placeholder="Write your thoughts here... How did it make you feel?"></textarea>
+</div>
+</div>
+</div>
+<!-- Mood Picker -->
+<div class="mt-2 flex flex-col gap-3">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Current Mood</span>
+<div class="flex gap-4 justify-between max-w-sm">
+<button class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center hover:bg-secondary-container hover:border-secondary transition-all">😊</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center hover:bg-tertiary-container hover:border-tertiary transition-all opacity-50 grayscale hover:grayscale-0 hover:opacity-100">😭</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center hover:bg-primary-container hover:border-primary transition-all opacity-50 grayscale hover:grayscale-0 hover:opacity-100">🤯</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center hover:bg-error-container hover:border-error transition-all opacity-50 grayscale hover:grayscale-0 hover:opacity-100">😡</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center hover:bg-secondary-container hover:border-secondary transition-all opacity-50 grayscale hover:grayscale-0 hover:opacity-100">😴</button>
+</div>
+</div>
+<!-- Voice Capture / Actions -->
+<div class="mt-8 flex flex-col items-center gap-6">
+<button class="w-20 h-20 rounded-full bg-primary-container flex items-center justify-center shadow-lg text-primary hover:bg-primary hover:text-on-primary transition-all mic-pulse active:scale-90 group relative">
+<span class="material-symbols-outlined text-3xl transition-transform group-hover:scale-110" style="font-variation-settings: 'FILL' 1;">mic</span>
+<span class="absolute -bottom-6 font-label-sm text-label-sm text-outline group-hover:text-primary transition-colors whitespace-nowrap">Voice Note</span>
+</button>
+<button class="w-full mt-4 bg-primary text-on-primary font-body-lg text-body-lg py-4 rounded-xl shadow-md hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                Save to Memory
+            </button>
+</div>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.4)] md:hidden">
+<div class="fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 pb-safe">
+<!-- Journal (Active) -->
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg px-4 py-1.5 -rotate-1 scale-110 transition-all duration-300 ease-out group">
+<span class="material-symbols-outlined group-hover:text-secondary-fixed transition-colors" data-icon="edit_note" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="font-label-sm text-label-sm mt-1">Journal</span>
+</button>
+<!-- Timeline (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-sm text-label-sm mt-1">Timeline</span>
+</button>
+<!-- Recap (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors group">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform" data-icon="subscriptions">subscriptions</span>
+<span class="font-label-sm text-label-sm mt-1">Recap</span>
+</button>
+</div>
+</nav>
+<!-- Desktop Sidebar (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col w-64 h-screen fixed left-0 top-0 bg-surface-container border-r border-outline-variant/20 pt-20 px-4">
+<nav class="flex flex-col gap-2">
+<button class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 transition-all duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="edit_note" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+<span class="font-body-lg text-body-lg">Journal</span>
+</button>
+<button class="flex items-center gap-3 text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-on-surface rounded-lg px-4 py-3 transition-colors">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-body-lg text-body-lg">Timeline</span>
+</button>
+<button class="flex items-center gap-3 text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-on-surface rounded-lg px-4 py-3 transition-colors">
+<span class="material-symbols-outlined" data-icon="subscriptions">subscriptions</span>
+<span class="font-body-lg text-body-lg">Recap</span>
+</button>
+</nav>
+</aside>
+</body></html>

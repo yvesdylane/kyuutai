@@ -1,4 +1,5 @@
 export type mediaType = "GAME" | "ANIME" | "SONG"
+export type MediaType = mediaType
 
 export interface journalEntry {
   id: string
@@ -11,3 +12,7 @@ export interface journalEntry {
   mood: string | null
   createdAt: Date
 }
+
+export type JournalEntry = journalEntry
+export type CreateJournalEntry = Partial<Omit<journalEntry, "id" | "createdAt">>
+export type UpdateJournalEntry = Partial<Omit<journalEntry, "id" | "createdAt">>
