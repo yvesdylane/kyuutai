@@ -1,73 +1,148 @@
 "use client"
 
-import { SignUp } from "@clerk/nextjs"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { SplitAuthLayout } from "@/components/auth/split-auth-layout"
 import { RightAuthPanel } from "@/components/auth/right-auth-panel"
 
-const clerkAppearance = {
-  variables: {
-    colorPrimary: "#E6192E",
-    colorBackground: "#1A1A1C",
-    colorInputBackground: "#2D2D30",
-    colorInputText: "#F4F4F5",
-    colorText: "#F4F4F5",
-    colorDanger: "#EF4444",
-    colorSuccess: "#10B981",
-    borderRadius: "1rem",
-    colorTextOnPrimaryBackground: "#FFFFFF",
-  },
-  elements: {
-    rootBox: { width: "100%" },
-    card: { background: "transparent", boxShadow: "none", borderWidth: "0" },
-    headerTitle: { color: "#F4F4F5", fontSize: "2rem", fontWeight: "700" },
-    headerSubtitle: { color: "#A1A1AA" },
-    formFieldLabel: { color: "#F4F4F5" },
-    formFieldInput: {
-      backgroundColor: "#2D2D30",
-      border: "1px solid rgba(255,255,255,0.1)",
-      borderRadius: "0.75rem",
-      color: "#F4F4F5",
-    },
-    input: { color: "#F4F4F5" },
-    formFieldInputPlaceholder: { color: "#F4F4F5" },
-    formButtonPrimary: {
-      backgroundColor: "#E6192E",
-      borderRadius: "0.75rem",
-      height: "48px",
-    },
-    formButtonPrimary_hover: {
-      backgroundColor: "#b91c1c",
-    },
-    footerActionLink: { color: "#E6192E" },
-    footerActionText: { color: "#A1A1AA" },
-    socialButtonsBlockButton: {
-      backgroundColor: "#2D2D30",
-      border: "1px solid rgba(255,255,255,0.1)",
-      borderRadius: "0.75rem",
-    },
-    socialButtonsBlockButton_hover: {
-      backgroundColor: "#3F3F46",
-    },
-    socialButtonsBlockButtonText: { color: "#F4F4F5" },
-    formFieldErrorText: { color: "#F87171" },
-    dividerLine: { backgroundColor: "rgba(255,255,255,0.1)" },
-    dividerText: { color: "#A1A1AA" },
-    otpInputField: {
-      backgroundColor: "#2D2D30",
-      border: "1px solid rgba(255,255,255,0.1)",
-      borderRadius: "0.75rem",
-      color: "#F4F4F5",
-    },
-    identityPreviewText: { color: "#F4F4F5" },
-    identityPreviewEditButton: { color: "#E6192E" },
-  },
-}
-
 export default function SignUpPage() {
+  const router = useRouter()
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError(null)
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match")
+      return
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters")
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.error || "Registration failed")
+        return
+      }
+
+      router.push("/sign-in")
+    } catch {
+      setError("Registration failed. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <SplitAuthLayout>
       <RightAuthPanel>
-        <SignUp appearance={clerkAppearance} />
+        <div className="flex flex-col gap-8">
+          <div>
+            <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold text-[#F4F4F5]">
+              Create account
+            </h1>
+            <p className="text-[#A1A1AA] mt-2">
+              Start your fandom devotion journey
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div>
+              <label className="block text-sm font-medium text-[#F4F4F5] mb-1.5">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Choose a username"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-[#2D2D30] border border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 outline-none focus:border-[#E6192E] transition-colors"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#F4F4F5] mb-1.5">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-[#2D2D30] border border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 outline-none focus:border-[#E6192E] transition-colors"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#F4F4F5] mb-1.5">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Create a password (min 8 characters)"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-[#2D2D30] border border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 outline-none focus:border-[#E6192E] transition-colors"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-[#F4F4F5] mb-1.5">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your password"
+                required
+                className="w-full px-4 py-3 rounded-xl bg-[#2D2D30] border border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 outline-none focus:border-[#E6192E] transition-colors"
+              />
+            </div>
+
+            {error && (
+              <p className="text-sm text-[#F87171]">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-xl bg-[#E6192E] text-white font-semibold text-base hover:bg-[#b91c1c] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Creating account..." : "Create Account"}
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-[#A1A1AA]">
+            Already have an account?{" "}
+            <Link href="/sign-in" className="text-[#E6192E] hover:underline font-medium">
+              Sign in
+            </Link>
+          </p>
+        </div>
       </RightAuthPanel>
     </SplitAuthLayout>
   )
