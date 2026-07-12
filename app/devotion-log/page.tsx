@@ -93,7 +93,6 @@ export default function DevotionLogPage() {
     }
 
     recognitionRef.current = recognition
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVoiceSupported(true)
 
     return () => {

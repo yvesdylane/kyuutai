@@ -8,7 +8,7 @@ import { SplitAuthLayout } from "@/components/auth/split-auth-layout"
 import { RightAuthPanel } from "@/components/auth/right-auth-panel"
 
 export default function Home() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
