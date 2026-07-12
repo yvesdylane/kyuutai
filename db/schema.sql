@@ -11,16 +11,16 @@ CREATE TYPE media_type AS ENUM ('GAME', 'ANIME', 'SONG');
 -- User
 -- ============================================================
 CREATE TABLE "user" (
-    id           TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
-    clerk_id     TEXT UNIQUE,
-    name         TEXT NOT NULL,
-    email        TEXT NOT NULL UNIQUE,
-    image_url    TEXT,
-    created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+    id             TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
+    name           TEXT NOT NULL,
+    email          TEXT NOT NULL UNIQUE,
+    password_hash  TEXT NOT NULL,
+    image_url      TEXT,
+    created_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at     TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_user_clerk_id ON "user" (clerk_id);
+CREATE INDEX idx_user_email ON "user" (email);
 
 -- ============================================================
 -- JournalEntry (Devotion Log — Anchor MVP)
