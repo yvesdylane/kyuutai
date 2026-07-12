@@ -1,4 +1,4 @@
-import { ClerkProvider } from "@clerk/nextjs";
+import { SessionProvider } from "next-auth/react";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Quicksand } from "next/font/google";
 import "./globals.css";
@@ -33,9 +33,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-background text-on-background font-[family-name:var(--font-body)]">
-        <ClerkProvider>
+        <SessionProvider>
           {children}
-        </ClerkProvider>
+        </SessionProvider>
       </body>
     </html>
   );
