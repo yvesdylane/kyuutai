@@ -2,7 +2,7 @@ import { NextRequest } from "next/server"
 import { getAuthUserId } from "@/lib/auth"
 import { generatePassionCard, getLatestPassionCard } from "./passion-card.service"
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   let userId: string
   try {
     userId = await getAuthUserId()

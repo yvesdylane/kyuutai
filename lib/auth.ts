@@ -25,7 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null
 
         const result = await pool.query(
-          'SELECT id, email, password_hash, username FROM "user" WHERE email = $1',
+          'SELECT id, email, password_hash, name FROM "user" WHERE email = $1',
           [credentials.email],
         )
         const user = result.rows[0]
@@ -41,7 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return {
           id: user.id,
           email: user.email,
-          name: user.username,
+          name: user.name,
         }
       },
     }),

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     const existing = await pool.query(
-      'SELECT id FROM "user" WHERE email = $1 OR username = $2',
+      'SELECT id FROM "user" WHERE email = $1 OR name = $2',
       [email, username]
     )
     if (existing.rows.length > 0) {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
     const passwordHash = await bcrypt.hash(password, 12)
     const result = await pool.query(
-      'INSERT INTO "user" (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id, username, email',
+      'INSERT INTO "user" (name, email, password_hash) VALUES ($1, $2, $3) RETURNING id, name, email',
       [username, email, passwordHash]
     )
 

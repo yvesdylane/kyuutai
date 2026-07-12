@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { SplitAuthLayout } from "@/components/auth/split-auth-layout"
@@ -45,7 +46,18 @@ export default function SignUpPage() {
         return
       }
 
-      router.push("/sign-in")
+      const signInResult = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      })
+
+      if (signInResult?.error) {
+        router.push("/sign-in")
+      } else {
+        router.push("/devotion-log")
+        router.refresh()
+      }
     } catch {
       setError("Registration failed. Please try again.")
     } finally {

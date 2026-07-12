@@ -1,16 +1,13 @@
-import { NextRequest } from "next/server"
 import { getAuthUserId } from "@/lib/auth"
 import { generateRecap, listRecaps } from "./recap.service"
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   let userId: string
   try {
     userId = await getAuthUserId()
   } catch {
     return Response.json({ error: "Unauthorized" }, { status: 401 })
   }
-
-  const { searchParams } = new URL(request.url)
 
   try {
     const recaps = await listRecaps(userId)
@@ -23,7 +20,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     let userId: string
     try {
