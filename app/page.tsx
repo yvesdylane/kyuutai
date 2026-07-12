@@ -1,65 +1,64 @@
-import Image from "next/image";
+"use client"
+
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+import Link from "next/link"
+import { SplitAuthLayout } from "@/components/auth/split-auth-layout"
+import { RightAuthPanel } from "@/components/auth/right-auth-panel"
 
 export default function Home() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/devotion-log")
+    }
+  }, [status, router])
+
+  if (status === "loading") {
+    return (
+      <SplitAuthLayout>
+        <RightAuthPanel>
+          <div className="flex items-center justify-center h-64">
+            <p className="text-[#A1A1AA]">Loading...</p>
+          </div>
+        </RightAuthPanel>
+      </SplitAuthLayout>
+    )
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <SplitAuthLayout>
+      <RightAuthPanel>
+        <div className="flex flex-col gap-8">
+          <div>
+            <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold text-[#F4F4F5]">
+              Welcome to Kyuutai
+            </h1>
+            <p className="text-[#A1A1AA] mt-2">
+              Your fandom, quantified. Start your devotion journey today.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Link
+              href="/sign-up"
+              className="w-full py-3 rounded-xl bg-[#E6192E] text-white font-semibold text-base text-center hover:bg-[#b91c1c] active:scale-[0.98] transition-all"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Get Started
+            </Link>
+
+            <Link
+              href="/sign-in"
+              className="w-full py-3 rounded-xl bg-[#2D2D30] border border-white/10 text-[#F4F4F5] font-medium text-center hover:bg-[#3F3F46] transition-colors"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              Sign In
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+      </RightAuthPanel>
+    </SplitAuthLayout>
+  )
 }
