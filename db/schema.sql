@@ -25,7 +25,7 @@ CREATE INDEX idx_user_email ON "user" (email);
 -- ============================================================
 -- JournalEntry (Devotion Log — Anchor MVP)
 -- ============================================================
-CREATE TABLE journal_entry (
+CREATE TABLE journal_entries (
     id                TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
     user_id           TEXT NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     date              TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -37,35 +37,40 @@ CREATE TABLE journal_entry (
     created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_journal_entry_user_date ON journal_entry (user_id, date);
+CREATE INDEX idx_journal_entry_user_date ON journal_entries (user_id, date);
 
 -- ============================================================
 -- WeeklyRecap (Devotion Log)
 -- ============================================================
-CREATE TABLE weekly_recap (
+CREATE TABLE weekly_recaps (
     id               TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
     user_id          TEXT NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     week_of          TIMESTAMPTZ NOT NULL,
     script_text      TEXT NOT NULL,
     audio_url        TEXT NOT NULL,
-    source_entry_ids TEXT[] NOT NULL DEFAULT '{}'
+    source_entry_ids TEXT[] NOT NULL DEFAULT '{}',
+    created_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_weekly_recap_user_week ON weekly_recap (user_id, week_of);
+CREATE INDEX idx_weekly_recap_user_week ON weekly_recaps (user_id, week_of);
 
 -- ============================================================
 -- PassionCard (Module A)
 -- ============================================================
-CREATE TABLE passion_card (
+CREATE TABLE passion_cards (
     id                 TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
     user_id            TEXT NOT NULL REFERENCES "user"(id) ON DELETE CASCADE,
     games              TEXT[] NOT NULL DEFAULT '{}',
     anime              TEXT[] NOT NULL DEFAULT '{}',
     artists            TEXT[] NOT NULL DEFAULT '{}',
-    ai_profile_text    TEXT NOT NULL,
-    recommendations    TEXT[] NOT NULL DEFAULT '{}',
-    card_image_url     TEXT,
-    created_at         TIMESTAMPTZ NOT NULL DEFAULT now()
+    radar_axes         JSONB NOT NULL DEFAULT '[]'::JSONB,
+    archetype          TEXT NOT NULL DEFAULT '',
+    blurb              TEXT NOT NULL DEFAULT '',
+    audio_url          TEXT,
+    obsession_id       TEXT,
+    recommendations    JSONB NOT NULL DEFAULT '[]'::JSONB,
+    created_at         TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at         TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 -- ============================================================
