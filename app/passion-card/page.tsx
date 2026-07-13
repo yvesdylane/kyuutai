@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
 import { toPng } from "html-to-image"
 import type { PassionCard } from "@/types/passion-card"
+import { Navbar } from "@/components/layout/navbar"
 
 type Category = "games" | "anime" | "artists"
 
@@ -69,6 +69,7 @@ export default function PassionCardPage() {
   const [anime, setAnime] = useState<string[]>([])
   const [artists, setArtists] = useState<string[]>([])
   const radarRef = useRef<HTMLDivElement>(null)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -108,6 +109,17 @@ export default function PassionCardPage() {
     }
   }
 
+  async function handleShare() {
+    if (!card) return
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/passion-card/${card.id}`)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // silent fallback
+    }
+  }
+
   async function handleDownload() {
     if (!radarRef.current) return
     try {
@@ -125,20 +137,7 @@ export default function PassionCardPage() {
 
   return (
     <div className="min-h-screen bg-background text-on-background relative font-[family-name:var(--font-body)]">
-      {/* Header */}
-      <header className="flex justify-between items-center w-full px-5 h-16 bg-surface/90 backdrop-blur-sm fixed top-0 z-40">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors">
-            <span className="material-symbols-outlined text-on-surface-variant">arrow_back</span>
-          </Link>
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-on-surface">
-            Passion Card
-          </h1>
-        </div>
-        <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors">
-          <span className="material-symbols-outlined text-on-surface-variant">settings</span>
-        </button>
-      </header>
+      <Navbar title="Passion Card" showBack />
 
       <main className="pt-24 pb-32 px-5 max-w-2xl mx-auto">
         {loading ? (
@@ -253,6 +252,13 @@ export default function PassionCardPage() {
               Regenerate
             </button>
             <button
+              onClick={handleShare}
+              className="w-full flex items-center justify-center gap-2 bg-surface-container-high text-on-surface py-3 rounded-xl hover:bg-surface-container-highest transition-colors"
+            >
+              <span className="material-symbols-outlined">{copied ? "check" : "link"}</span>
+              {copied ? "Copied!" : "Share Card"}
+            </button>
+            <button
               onClick={handleDownload}
               className="w-full flex items-center justify-center gap-2 bg-secondary-container text-on-secondary-container py-3 rounded-xl hover:bg-secondary-container/80 transition-colors"
             >
@@ -292,26 +298,6 @@ export default function PassionCardPage() {
           </div>
         )}
       </main>
-
-      {/* Bottom Nav */}
-      <nav className="fixed bottom-0 w-full z-50 bg-surface-container/90 backdrop-blur-md shadow-[0_-4px_12px_rgba(0,0,0,0.4)] rounded-t-xl flex justify-around items-center px-4 pb-6 pt-3">
-        <Link href="/devotion-log" className="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
-          <span className="material-symbols-outlined">edit_note</span>
-          <span className="font-[family-name:var(--font-label)] text-xs">Journal</span>
-        </Link>
-        <Link href="/devotion-log/timeline" className="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
-          <span className="material-symbols-outlined">auto_stories</span>
-          <span className="font-[family-name:var(--font-label)] text-xs">Timeline</span>
-        </Link>
-        <Link href="/devotion-log/recap" className="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
-          <span className="material-symbols-outlined">graphic_eq</span>
-          <span className="font-[family-name:var(--font-label)] text-xs">Recap</span>
-        </Link>
-        <div className="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-xl px-4 py-1">
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>insights</span>
-          <span className="font-[family-name:var(--font-label)] text-xs">Radar</span>
-        </div>
-      </nav>
     </div>
   )
 }
