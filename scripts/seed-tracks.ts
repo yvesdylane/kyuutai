@@ -3,6 +3,18 @@ import { execSync } from "child_process"
 import { existsSync, mkdirSync, readFileSync, unlinkSync } from "fs"
 import { uploadAudio } from "../lib/cloudinary"
 
+// Load .env file manually
+const envFile = readFileSync(".env", "utf-8")
+for (const line of envFile.split("\n")) {
+  const trimmed = line.trim()
+  if (!trimmed || trimmed.startsWith("#")) continue
+  const eqIdx = trimmed.indexOf("=")
+  if (eqIdx === -1) continue
+  const key = trimmed.slice(0, eqIdx).trim()
+  const value = trimmed.slice(eqIdx + 1).trim()
+  if (!process.env[key]) process.env[key] = value
+}
+
 const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
 })
@@ -30,6 +42,16 @@ function slugify(text: string): string {
 
 async function downloadTrack(track: { title: string; sourceName: string; youtubeQuery: string }): Promise<string | null> {
   const slug = slugify(`${track.sourceName}-${track.title}`)
+
+  // First check if a local MP3 already exists from a previous seed
+  const existingFile = `${TRACKS_DIR}/${slug}.mp3`
+  if (existsSync(existingFile)) {
+    console.log(`  Using existing local file: ${slug}.mp3`)
+    const buffer = readFileSync(existingFile)
+    const audioUrl = await uploadAudio(buffer, "tracks", `${slug}.mp3`)
+    console.log(`  Uploaded: ${slug}.mp3 -> Cloudinary`)
+    return audioUrl
+  }
 
   console.log(`  Downloading: ${track.youtubeQuery}...`)
 

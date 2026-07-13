@@ -55,6 +55,19 @@ function TagInput({ category, tags, onChange }: { category: Category; tags: stri
           placeholder={tags.length === 0 ? config.placeholder : "Add more..."}
           className="flex-1 min-w-[120px] bg-transparent text-on-surface outline-none placeholder:text-on-surface-variant/50 text-sm"
         />
+        {input.trim() && (
+          <button
+            onClick={() => {
+              if (!tags.includes(input.trim())) {
+                onChange([...tags, input.trim()])
+              }
+              setInput("")
+            }}
+            className="shrink-0 w-7 h-7 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center hover:bg-secondary-container/80 active:scale-90 transition-all"
+          >
+            <span className="material-symbols-outlined text-sm">add</span>
+          </button>
+        )}
       </div>
     </div>
   )
