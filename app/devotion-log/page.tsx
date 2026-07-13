@@ -243,19 +243,19 @@ export default function DevotionLogPage() {
         </div>
 
         {/* Mood Picker */}
-        <div className="mt-2 flex flex-col gap-3">
+        <div className="mt-2 flex flex-col gap-4">
           <span className="font-[family-name:var(--font-label)] text-xs font-semibold text-outline uppercase tracking-wider">
             Current Mood
           </span>
-          <div className="flex gap-4 justify-between max-w-sm">
+          <div className="grid grid-cols-5 gap-3 sm:gap-4">
             {MOODS.map((emoji) => (
               <button
                 key={emoji}
                 onClick={() => setMood(mood === emoji ? null : emoji)}
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${
+                className={`aspect-square rounded-full flex items-center justify-center text-2xl sm:text-3xl transition-all duration-200 active:scale-90 ${
                   mood === emoji
-                    ? "bg-secondary-container border-secondary scale-110"
-                    : "bg-surface-container-highest border-outline-variant opacity-50 grayscale hover:grayscale-0 hover:opacity-100 hover:bg-surface-variant"
+                    ? "bg-secondary-container border-2 border-secondary shadow-[0_0_20px_rgba(220,38,38,0.2)] scale-105"
+                    : "bg-surface-container-highest border-2 border-outline-variant/40 opacity-50 grayscale hover:grayscale-0 hover:opacity-100 hover:border-outline-variant hover:bg-surface-variant"
                 }`}
               >
                 {emoji}
