@@ -13,7 +13,7 @@ export async function uploadAudio(
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        resource_type: "audio",
+        resource_type: "video",
         folder: `kyuutai/${folder}`,
         public_id: filename.replace(/\.mp3$/, ""),
         format: "mp3",
