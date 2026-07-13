@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Link from "next/link"
 import type { JournalEntry, MediaType } from "@/types/journal"
+import { Navbar } from "@/components/layout/navbar"
 
 const MEDIA_COLORS: Record<MediaType, string> = {
   ANIME: "bg-secondary-container text-on-secondary-container",
@@ -97,26 +97,10 @@ export default function TimelinePage() {
 
   return (
     <div className="min-h-screen bg-background text-on-background relative font-[family-name:var(--font-body)]">
-      {/* Top App Bar */}
-      <header className="flex justify-between items-center w-full px-5 h-16 bg-surface/90 backdrop-blur-sm fixed top-0 z-40">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/devotion-log"
-            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors"
-          >
-            <span className="material-symbols-outlined text-on-surface-variant">arrow_back</span>
-          </Link>
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-on-surface">
-            Passion Timeline
-          </h1>
-        </div>
-        <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors">
-          <span className="material-symbols-outlined text-on-surface-variant">filter_list</span>
-        </button>
-      </header>
+      <Navbar title="Passion Timeline" showBack />
 
       {/* Main Content */}
-      <main className="pt-24 pb-32 px-5 max-w-2xl mx-auto">
+      <main className="pt-24 pb-32 px-5 max-w-2xl lg:max-w-4xl mx-auto">
         {loading && (
           <p className="text-on-surface-variant text-sm text-center py-8">Loading timeline...</p>
         )}
@@ -193,39 +177,6 @@ export default function TimelinePage() {
           </div>
         )}
       </main>
-
-      {/* Bottom Nav Bar */}
-      <nav className="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
-        <div className="w-full h-20 flex justify-around items-center px-4">
-          <Link
-            href="/devotion-log"
-            className="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors"
-          >
-            <span className="material-symbols-outlined">edit_note</span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Journal</span>
-          </Link>
-          <button className="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg px-4 py-1.5 -rotate-1 scale-110 transition-all duration-300 ease-out">
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
-              auto_stories
-            </span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Timeline</span>
-          </button>
-          <Link
-            href="/devotion-log/recap"
-            className="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors"
-          >
-            <span className="material-symbols-outlined">subscriptions</span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Recap</span>
-          </Link>
-          <Link
-            href="/passion-card"
-            className="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors"
-          >
-            <span className="material-symbols-outlined">insights</span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Radar</span>
-          </Link>
-        </div>
-      </nav>
     </div>
   )
 }

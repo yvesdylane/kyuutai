@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import Link from "next/link"
 import type { MediaType, JournalEntry } from "@/types/journal"
+import { Navbar } from "@/components/layout/navbar"
 
 const MEDIA_TYPES: { type: MediaType; label: string; icon: string }[] = [
   { type: "ANIME", label: "Anime", icon: "movie" },
@@ -182,23 +182,10 @@ export default function DevotionLogPage() {
 
   return (
     <div className="min-h-screen bg-background text-on-background relative font-[family-name:var(--font-body)]">
-      {/* Top App Bar */}
-      <header className="flex justify-between items-center w-full px-5 h-16 bg-surface/90 backdrop-blur-sm fixed top-0 z-40">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden flex items-center justify-center">
-            <span className="text-sm">⭐</span>
-          </div>
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-on-surface">
-            Good evening, Fan
-          </h1>
-        </div>
-        <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors">
-          <span className="material-symbols-outlined text-on-surface-variant">settings</span>
-        </button>
-      </header>
+      <Navbar title="Good evening, Fan" />
 
       {/* Main Content */}
-      <main className="pt-24 pb-32 px-5 flex flex-col gap-6 max-w-2xl mx-auto">
+      <main className="pt-24 pb-32 px-5 flex flex-col gap-6 max-w-2xl lg:max-w-4xl mx-auto">
         {/* Greeting */}
         <div className="relative -rotate-1 mb-4">
           <div className="washi-tape-accent bg-secondary/30" />
@@ -376,39 +363,6 @@ export default function DevotionLogPage() {
           ))}
         </div>
       </main>
-
-      {/* Bottom Nav Bar */}
-      <nav className="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-container/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
-        <div className="w-full h-20 flex justify-around items-center px-4">
-          <button className="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg px-4 py-1.5 -rotate-1 scale-110 transition-all duration-300 ease-out">
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
-              edit_note
-            </span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Journal</span>
-          </button>
-          <Link
-            href="/devotion-log/timeline"
-            className="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors"
-          >
-            <span className="material-symbols-outlined">auto_stories</span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Timeline</span>
-          </Link>
-          <Link
-            href="/devotion-log/recap"
-            className="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors"
-          >
-            <span className="material-symbols-outlined">subscriptions</span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Recap</span>
-          </Link>
-          <Link
-            href="/passion-card"
-            className="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-secondary-fixed transition-colors"
-          >
-            <span className="material-symbols-outlined">insights</span>
-            <span className="font-[family-name:var(--font-label)] text-xs mt-1">Radar</span>
-          </Link>
-        </div>
-      </nav>
     </div>
   )
 }

@@ -139,7 +139,7 @@ export default function PassionCardPage() {
     <div className="min-h-screen bg-background text-on-background relative font-[family-name:var(--font-body)]">
       <Navbar title="Passion Card" showBack />
 
-      <main className="pt-24 pb-32 px-5 max-w-2xl mx-auto">
+      <main className="pt-24 pb-32 px-5 max-w-2xl lg:max-w-4xl mx-auto">
         {loading ? (
           <div className="flex items-center justify-center py-16">
             <span className="material-symbols-outlined text-4xl text-on-surface-variant animate-spin">progress_activity</span>

@@ -30,7 +30,7 @@ export default async function PublicPassionCardPage({ params }: Props) {
         </h1>
       </header>
 
-      <main className="pt-24 pb-16 px-5 max-w-2xl mx-auto space-y-4">
+      <main className="pt-24 pb-16 px-5 max-w-2xl lg:max-w-4xl mx-auto space-y-4">
         {/* Radar Chart */}
         <section className="relative bg-surface-container-low rounded-xl p-6 paper-grain shadow-xl border border-outline-variant/20 transform rotate-1">
           <div className="washi-tape absolute -top-3 left-1/2 -translate-x-1/2" />
