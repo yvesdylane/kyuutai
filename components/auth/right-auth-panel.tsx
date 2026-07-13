@@ -38,12 +38,12 @@ export function RightAuthPanel({ children }: { children: ReactNode }) {
       >
         <div
           style={{
-            background: "rgba(26,26,28,0.85)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(24,24,27,0.85)",
+            border: "1px solid rgba(220,38,38,0.1)",
             borderRadius: "32px",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(220,38,38,0.06)",
           }}
           className="p-12"
         >

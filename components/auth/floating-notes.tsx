@@ -42,8 +42,8 @@ export function FloatingNotes({ count = 14 }: { count?: number }) {
           style={{
             left: `${n.left}%`,
             fontSize: `${n.size}px`,
-            color: "rgba(230,25,46,0.9)",
-            textShadow: "0 0 12px rgba(230,25,46,0.4)",
+            color: "rgba(220,38,38,0.9)",
+            textShadow: "0 0 12px rgba(220,38,38,0.4)",
           }}
           initial={{ y: "110%", opacity: 0, rotate: n.rotation }}
           animate={{

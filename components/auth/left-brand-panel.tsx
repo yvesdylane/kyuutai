@@ -8,10 +8,10 @@ function ShurikenIcon() {
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
       <path
         d="M24 4L27.5 17.5L40 24L27.5 30.5L24 44L20.5 30.5L8 24L20.5 17.5L24 4Z"
-        fill="#E6192E"
+        fill="var(--color-secondary)"
         opacity="0.9"
       />
-      <circle cx="24" cy="24" r="4" fill="#1A1A1C" />
+      <circle cx="24" cy="24" r="4" fill="var(--color-surface-container-low)" />
     </svg>
   )
 }
@@ -23,7 +23,7 @@ export function LeftBrandPanel() {
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url(/images/auth-bg.png)" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(26,26,28,0.35)] to-[rgba(26,26,28,0.7)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(19,19,19,0.35)] to-[rgba(19,19,19,0.7)]" />
       <AnimatedBackground />
 
       <motion.div
@@ -33,12 +33,12 @@ export function LeftBrandPanel() {
         className="relative z-10 mx-6 w-full"
         style={{
           maxWidth: "420px",
-          background: "rgba(255,255,255,0.06)",
+          background: "rgba(255,255,255,0.04)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid rgba(255,255,255,0.12)",
+          border: "1px solid rgba(220,38,38,0.15)",
           borderRadius: "32px",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.45), 0 0 40px rgba(220,38,38,0.08)",
           padding: "48px",
         }}
       >
@@ -66,7 +66,7 @@ export function LeftBrandPanel() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-2 text-base"
-          style={{ color: "#E6192E", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
+          style={{ color: "var(--color-secondary)", textShadow: "0 2px 12px rgba(0,0,0,0.6)" }}
         >
           音楽・アニメ・ゲーム・情熱
         </motion.p>

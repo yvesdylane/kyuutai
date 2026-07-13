@@ -44,17 +44,17 @@ export default function SignInPage() {
       <RightAuthPanel>
         <div className="flex flex-col gap-8">
           <div>
-            <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold text-[#F4F4F5]">
+            <h1 className="font-[family-name:var(--font-display)] text-3xl font-bold text-on-background">
               Welcome back
             </h1>
-            <p className="text-[#A1A1AA] mt-2">
+            <p className="text-on-surface-variant mt-2">
               Sign in to continue your fandom devotion
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <div>
-              <label className="block text-sm font-medium text-[#F4F4F5] mb-1.5">
+              <label className="block text-sm font-medium text-on-background mb-1.5">
                 Email
               </label>
               <input
@@ -63,12 +63,12 @@ export default function SignInPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-[#2D2D30] border border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 outline-none focus:border-[#E6192E] transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-surface-container-high border border-outline-variant/30 text-on-background placeholder:text-on-background/50 outline-none focus:border-secondary transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[#F4F4F5] mb-1.5">
+              <label className="block text-sm font-medium text-on-background mb-1.5">
                 Password
               </label>
               <input
@@ -77,26 +77,26 @@ export default function SignInPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-[#2D2D30] border border-white/10 text-[#F4F4F5] placeholder:text-[#F4F4F5]/50 outline-none focus:border-[#E6192E] transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-surface-container-high border border-outline-variant/30 text-on-background placeholder:text-on-background/50 outline-none focus:border-secondary transition-colors"
               />
             </div>
 
             {error && (
-              <p className="text-sm text-[#F87171]">{error}</p>
+              <p className="text-sm text-error">{error}</p>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-[#E6192E] text-white font-semibold text-base hover:bg-[#b91c1c] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 rounded-xl bg-secondary text-white font-semibold text-base hover:bg-secondary/80 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
-          <p className="text-center text-sm text-[#A1A1AA]">
+          <p className="text-center text-sm text-on-surface-variant">
             Don&apos;t have an account?{" "}
-            <Link href="/" className="text-[#E6192E] hover:underline font-medium">
+            <Link href="/" className="text-secondary hover:underline font-medium">
               Sign up
             </Link>
           </p>
