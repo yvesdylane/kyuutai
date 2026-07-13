@@ -77,17 +77,21 @@ export interface PublicPassionCard extends PassionCard {
 export async function findPublicById(
   id: string
 ): Promise<PublicPassionCard | null> {
-  const result = await pool.query(
-    `SELECT p.*, u.name AS owner_name
-     FROM passion_cards p
-     JOIN "user" u ON p.user_id = u.id
-     WHERE p.id = $1`,
-    [id]
-  )
-  if (!result.rows[0]) return null
-  const row = result.rows[0]
-  return {
-    ...mapRow(row),
-    ownerName: row.owner_name ?? "Anonymous",
+  try {
+    const result = await pool.query(
+      `SELECT p.*, u.name AS owner_name
+       FROM passion_cards p
+       JOIN "user" u ON p.user_id = u.id
+       WHERE p.id = $1`,
+      [id]
+    )
+    if (!result.rows[0]) return null
+    const row = result.rows[0]
+    return {
+      ...mapRow(row),
+      ownerName: row.owner_name ?? "Anonymous",
+    }
+  } catch {
+    return null
   }
 }

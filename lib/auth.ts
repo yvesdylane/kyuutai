@@ -9,6 +9,7 @@ declare module "next-auth" {
       id: string
       name?: string | null
       email?: string | null
+      image?: string | null
     }
   }
 }
@@ -25,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) return null
 
         const result = await pool.query(
-          'SELECT id, email, password_hash, name FROM "user" WHERE email = $1',
+          'SELECT id, email, password_hash, name, image_url FROM "user" WHERE email = $1',
           [credentials.email],
         )
         const user = result.rows[0]
@@ -42,6 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: user.id,
           email: user.email,
           name: user.name,
+          image: user.image_url,
         }
       },
     }),
@@ -54,12 +56,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id as string
+        token.image = user.image as string | null
       }
       return token
     },
     async session({ session, token }) {
       if (token?.id) {
         session.user.id = token.id as string
+      }
+      if (token?.image) {
+        session.user.image = token.image as string
       }
       return session
     },

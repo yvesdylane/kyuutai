@@ -16,7 +16,7 @@ export async function generateRecapScript(entries: {
   date: string
 }[]): Promise<string> {
   const genAI = getGenAI()
-  const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" })
+  const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" })
 
   const entriesText = entries
     .map(
@@ -51,7 +51,7 @@ export async function generatePassionProfile(favorites: {
   recommendations: { title: string; category: string; reason: string }[]
 }> {
   const genAI = getGenAI()
-  const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" })
+  const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" })
 
   const prompt = `Analyze these favorites and produce a passion profile with personalized recommendations.
 
