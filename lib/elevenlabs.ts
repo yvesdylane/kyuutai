@@ -1,4 +1,5 @@
 import { ElevenLabsClient } from "elevenlabs"
+import { uploadAudio } from "./cloudinary"
 
 function getClient() {
   const apiKey = process.env.ELEVENLABS_API_KEY
@@ -21,22 +22,12 @@ export async function textToSpeech(text: string): Promise<string> {
     },
   })
 
-  // Convert audio stream to buffer and save to temp file
   const chunks: Buffer[] = []
   for await (const chunk of audio) {
     chunks.push(Buffer.from(chunk))
   }
   const buffer = Buffer.concat(chunks)
 
-  // Save to public directory
   const filename = `recap-${Date.now()}.mp3`
-
-  const fs = await import("fs/promises")
-  const path = await import("path")
-  const fullPath = path.join(process.cwd(), "public", "audio", filename)
-
-  await fs.mkdir(path.dirname(fullPath), { recursive: true })
-  await fs.writeFile(fullPath, buffer)
-
-  return `/audio/${filename}`
+  return uploadAudio(buffer, "tts", filename)
 }
